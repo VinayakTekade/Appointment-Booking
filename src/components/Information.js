@@ -1,7 +1,7 @@
 import React from "react";
 import { Container } from "reactstrap";
-import doc1 from "./assets/img/doc1.jpg";
-import doc2 from "./assets/img/doc2.jpg";
+import doc1 from "../assets/img/doc1.jpg";
+import doc2 from "../assets/img/doc2.jpg";
 
 const Information = () => {
   return (

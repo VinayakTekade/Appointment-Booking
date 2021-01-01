@@ -1,4 +1,4 @@
-import "./assets/css/App.css";
+import "../assets/css/App.css";
 import NavBar from "./NavBar";
 import Greeting from "./Greeting";
 import Information from "./Information";

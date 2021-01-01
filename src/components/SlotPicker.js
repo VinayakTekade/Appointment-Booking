@@ -10,7 +10,7 @@ function DatePicker() {
       <div className="col-12 col-md-6">
         <Calendar onChange={onChange} value={value} />
       </div>
-      <div className="col-12 col-md-6 text-center align-items-center">
+      <div className="col-12 col-md-6 text-center">
         <Button outline color="primary" className="m-2">
           8:30 AM
         </Button>

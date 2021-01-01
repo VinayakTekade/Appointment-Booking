@@ -1,5 +1,5 @@
 {
-  "name": "ghl-appointment-booking",
+  "name": "ghl-appointment-booking-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

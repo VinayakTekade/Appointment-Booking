@@ -6,10 +6,10 @@ const Greeting = (props) => {
     <div>
       <Jumbotron fluid>
         <Container fluid>
-          <h1 className="display-3">Fluid jumbotron</h1>
+          <h1 className="display-3">Welcome</h1>
           <p className="lead">
-            This is a modified jumbotron that occupies the entire horizontal
-            space of its parent.
+            To the world's best doctor. <br /> Press the "Book Appointment" in
+            the header to schedule a meeting
           </p>
         </Container>
       </Jumbotron>

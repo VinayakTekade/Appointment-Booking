@@ -12,6 +12,7 @@ const Information = () => {
             <img src={doc1} alt="" width="100%" height="auto" />
           </div>
           <div className="col-12 col-md-6 text-center p-5">
+            <h3 className="display-4">Specialist in Critical Care</h3>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
               Laudantium atque fugiat ipsa accusamus? Rerum dolore aperiam nobis
@@ -24,6 +25,7 @@ const Information = () => {
         </div>
         <div className="row m-3 d-flex align-items-center">
           <div className="col-12 col-md-6 text-center p-5">
+            <h3 className="display-4">Specialist in Medicine</h3>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
               Laudantium atque fugiat ipsa accusamus? Rerum dolore aperiam nobis

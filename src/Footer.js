@@ -1,5 +1,6 @@
 import React from "react";
 import { Jumbotron, Container, Button } from "reactstrap";
+import Booking from "./Booking";
 
 const Footer = (props) => {
   return (
@@ -11,9 +12,7 @@ const Footer = (props) => {
               <h3 className="display-4 ">Schedule your meeting now</h3>
             </div>
             <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-              <Button color="primary" size="lg">
-                Book Appointment
-              </Button>
+              <Booking className="BookApp" size="lg" />
             </div>
           </div>
         </Container>

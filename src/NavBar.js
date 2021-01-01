@@ -7,6 +7,7 @@ import {
   Nav,
   Button,
 } from "reactstrap";
+import Booking from "./Booking";
 
 const NavBar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,9 +21,7 @@ const NavBar = (props) => {
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
-            <Button href="#" color="primary">
-              Book Appointment
-            </Button>
+            <Booking className="BookApp" />
           </Nav>
         </Collapse>
       </Navbar>

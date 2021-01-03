@@ -1,19 +1,16 @@
 const router = require("express").Router();
 const db = require("../db");
+let eventsList = [];
+db.collection("events")
+  .get()
+  .then((snapshot) => {
+    snapshot.docs.forEach((doc) => {
+      eventsList.push(doc.data());
+    });
+  });
 
 router.route("/").get((req, res) => {
-  db.collection("events")
-    .get()
-    .then((snapshot) => {
-      snapshot.docs.forEach((doc) => {
-        console.log(doc.data());
-      });
-    });
-  res.send("Check console for all the appointments");
+  res.json(eventsList);
 });
-
-// router.route('/add').post((req,res) => {
-//
-// })
 
 module.exports = router;

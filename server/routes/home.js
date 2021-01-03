@@ -49,8 +49,7 @@ router.route("/freeSlots").post((req, res) => {
 router.route("/createEvent").post((req, res) => {
   res.send("New appointment added");
   const reqDateTime = req.query.reqDateTime;
-  const reqDuration = req.query.reqDuration;
-
+  const reqDuration = parseInt(req.query.reqDuration);
   db.collection("events").add({
     dateTime: admin.firestore.Timestamp.fromDate(new Date(reqDateTime)),
     duration: reqDuration,

@@ -1,4 +1,3 @@
-import React from "react";
 import { Jumbotron, Container } from "reactstrap";
 import Booking from "./Booking";
 

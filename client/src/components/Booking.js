@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import SlotPicker from "./SlotPicker";
 
@@ -34,9 +35,11 @@ const Booking = (props) => {
           <SlotPicker />
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={toggle}>
-            Next
-          </Button>
+          <Link to="/status">
+            <Button color="primary" onClick={toggle}>
+              Next
+            </Button>
+          </Link>
         </ModalFooter>
       </Modal>
     </div>

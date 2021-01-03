@@ -5,20 +5,22 @@ import "bootstrap/dist/css/bootstrap.css";
 import "react-calendar/dist/Calendar.css";
 import "./assets/css/index.css";
 import App from "./App";
-import Nav from "./components/NavBar";
-import Info from "./components/Information";
+import Status from "./Status";
+import Error from "./Error";
 import reportWebVitals from "./reportWebVitals";
 
 const ReactRouterSetup = () => {
   return (
     <Router>
-      <Nav />
       <Switch>
         <Route exact path="/">
           <App />
         </Route>
-        <Route path="/nav">
-          <Info />
+        <Route path="/status">
+          <Status />
+        </Route>
+        <Route path="*">
+          <Error />
         </Route>
       </Switch>
     </Router>

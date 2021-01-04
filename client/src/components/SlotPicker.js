@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import { Button } from "reactstrap";
 import TimezonePicker from "./TimezonePicker";
 

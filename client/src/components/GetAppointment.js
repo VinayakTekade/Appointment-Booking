@@ -1,7 +1,11 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import DatePicker from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Button } from "reactstrap";
+import axios from "axios";
+import timezones from "../timezones";
+import Status from "../Status";
 
 export default class CreateEvent extends Component {
   constructor(props) {
@@ -10,21 +14,24 @@ export default class CreateEvent extends Component {
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onChangeTimezone = this.onChangeTimezone.bind(this);
     this.onChangeDuration = this.onChangeDuration.bind(this);
-    this.getSlots = this.getSlots.bind(this);
+    // this.getSlots = this.getSlots.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onSlotSelect = this.onSlotSelect.bind(this);
 
     this.state = {
       date: new Date(),
-      timezones: [],
+      timezones: timezones,
+      timezone: "",
       duration: 0,
       slots: [],
+      buttons: [],
     };
   }
 
   componentDidMount() {
     this.setState({
       date: new Date(),
-      timezones: ["America/New_York"],
+      timezone: "America/New_York",
       duration: 30,
     });
   }
@@ -47,26 +54,69 @@ export default class CreateEvent extends Component {
     });
   }
 
+  getSlots(availableSlots) {
+    this.setState({
+      slots: availableSlots,
+    });
+    let tmp = [];
+    this.state.slots.map((slot) => {
+      let Hours = new Date(slot).getHours();
+      let min = new Date(slot).getMinutes();
+      let _hrs = Hours;
+      let _daynight = "AM";
+      if (Hours > 12) {
+        _hrs = Hours - 12;
+        _daynight = "PM";
+      } else if (Hours === 12) {
+        _hrs = 12;
+        _daynight = "PM";
+      }
+      let _min = min;
+      if (min === 0) _min = "00";
+      // console.log(_hrs + ":" + _min + " " + _daynight);
+      tmp.push(`${_hrs}:${_min} ${_daynight}`);
+    });
+    this.setState({
+      buttons: tmp,
+    });
+    console.log(this.state.buttons);
+  }
+
   onSubmit(e) {
     e.preventDefault();
 
     const events = {
-      date: this.state.date,
-      timezone: this.state.timezone,
-      duration: parseInt(this.state.duration),
+      reqDate: this.state.date.valueOf(),
+      reqTimezone: this.state.timezone,
     };
-    this.getSlots();
 
-    console.log(events);
-
-    // window.location = "/slots";
+    axios.post("http://localhost:5000/freeSlots", events).then((res) => {
+      this.getSlots(res.data);
+    });
   }
 
-  getSlots() {
-    this.setState({
-      slots: ["8:30AM", "9:30AM", "10:30AM", "11:30AM"],
+  onSlotSelect(e) {
+    let index = this.state.buttons.indexOf(e.button);
+    const selectedSlot = this.state.slots[index];
+    let actualSlot = new Date(selectedSlot);
+    let date = this.state.date,
+      yr = date.getFullYear(),
+      month = date.getMonth(),
+      day = date.getDate(),
+      hr = actualSlot.getHours(),
+      min = actualSlot.getMinutes();
+
+    let eventDateTime = new Date(yr, month, day, hr, min, 0);
+    console.log(eventDateTime);
+
+    const eventParam = {
+      reqDateTime: eventDateTime,
+      reqDuration: this.state.duration,
+    };
+
+    axios.post("http://localhost:5000/createEvent", eventParam).then(() => {
+      window.location = "/status";
     });
-    console.log("Slots Displayed");
   }
 
   render() {
@@ -120,10 +170,16 @@ export default class CreateEvent extends Component {
             </form>
           </div>
           <div className="col-12 col-md-6">
-            {this.state.slots.map((slot) => {
+            {this.state.buttons.map((button) => {
               return (
-                <Button outline color="primary" className="m-2">
-                  {slot}
+                <Button
+                  color="primary"
+                  className="m-2"
+                  onClick={() => {
+                    this.onSlotSelect({ button });
+                  }}
+                >
+                  {button}
                 </Button>
               );
             })}

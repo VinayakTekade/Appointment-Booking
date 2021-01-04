@@ -1,14 +1,16 @@
 import { useState } from "react";
 import Calendar from "react-calendar";
 import { Button } from "reactstrap";
+import TimezonePicker from "./TimezonePicker";
 
-function DatePicker() {
-  const [value, onChange] = useState(new Date());
+const DatePicker = () => {
+  const [date, setDate] = useState(new Date());
 
   return (
     <div className="row mx-2 my-5">
       <div className="col-12 col-md-6">
-        <Calendar onChange={onChange} value={value} />
+        <Calendar onChange={setDate} value={date} />
+        <TimezonePicker />
       </div>
       <div className="col-12 col-md-6 text-center">
         <Button outline color="primary" className="m-2">
@@ -50,6 +52,6 @@ function DatePicker() {
       </div>
     </div>
   );
-}
+};
 
 export default DatePicker;

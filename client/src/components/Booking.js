@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import SlotPicker from "./SlotPicker";
+// import SlotPicker from "./SlotPicker";
+import GetAppointment from "./GetAppointment";
 
 const Booking = (props) => {
   const { className, size } = props;
@@ -32,7 +33,7 @@ const Booking = (props) => {
           Schedule an Appointment
         </ModalHeader>
         <ModalBody>
-          <SlotPicker />
+          <GetAppointment />
         </ModalBody>
         <ModalFooter>
           <Link to="/status">

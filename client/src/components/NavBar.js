@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav } from "reactstrap";
+import { Link } from "react-router-dom";
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  Button,
+} from "reactstrap";
 import Booking from "./Booking";
 
 const NavBar = (props) => {
@@ -14,6 +22,11 @@ const NavBar = (props) => {
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
+            <Link to="/listAll">
+              <Button color="primary" className="mx-2">
+                List All events
+              </Button>
+            </Link>
             <Booking className="BookApp" />
           </Nav>
         </Collapse>

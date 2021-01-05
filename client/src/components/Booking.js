@@ -34,13 +34,6 @@ const Booking = (props) => {
         <ModalBody>
           <GetAppointment />
         </ModalBody>
-        <ModalFooter>
-          <Link to="/status">
-            <Button color="primary" onClick={toggle}>
-              Next
-            </Button>
-          </Link>
-        </ModalFooter>
       </Modal>
     </div>
   );

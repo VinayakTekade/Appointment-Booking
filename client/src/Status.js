@@ -1,7 +1,7 @@
 import React from "react";
 
 const Success = (props) => {
-  const { statuscode, eventDate, eventDuration } = props;
+  // const { statuscode, eventDate, eventDuration } = props;
   return (
     <div>
       <h1>

@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import DatePicker from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Button } from "reactstrap";
 import axios from "axios";
 import timezones from "../timezones";
-import Status from "../Status";
 
 export default class CreateEvent extends Component {
   constructor(props) {
@@ -75,6 +73,7 @@ export default class CreateEvent extends Component {
       if (min === 0) _min = "00";
       // console.log(_hrs + ":" + _min + " " + _daynight);
       tmp.push(`${_hrs}:${_min} ${_daynight}`);
+      return tmp;
     });
     this.setState({
       buttons: tmp,

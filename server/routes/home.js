@@ -9,57 +9,62 @@ moment.tz.setDefault(staticConfig.timezone);
 
 let occupiedSlots = [];
 
-function changeTimezone(idate, timezone) {
-  let Timestamp = idate.toLocaleString("en-US", {
-    timeZone: timezone,
-  });
-  return Date.parse(Timestamp);
-}
-
-router.route("/").get((req, res) => {
-  res.send("This page will take post request");
-});
-
 router.route("/freeSlots").post((req, res) => {
-  const reqDate = req.body.reqDate;
+  // let reqDate = req.query.reqDate;
+  // reqDate = moment(reqDate).format();
+  // reqDate = new Date(reqDate);
+  // reqDate = admin.firestore.Timestamp.fromDate(reqDate);
+  // reqEndDate = moment(req.query.reqDate).add(1, "days").format();
+  // reqEndDate = new Date(reqEndDate);
+  // reqEndDate = admin.firestore.Timestamp.fromDate(reqEndDate);
   const reqTimezone = req.body.reqTimezone;
+  console.log(reqTimezone);
 
-  let start = new Date(staticConfig.startHours);
-  let end = new Date(staticConfig.endHours);
-  let changedStart = changeTimezone(start, reqTimezone);
-  let changedEnd = changeTimezone(end, reqTimezone);
+  let start = moment(staticConfig.startHours, "HH:mm");
+  let end = moment(staticConfig.endHours, "HH:mm");
 
-  db.collection("events")
-    .where("dateTime", "==", "admin.firestore.Timestamp.fromDate(reqDateTime)")
-    .get()
-    .then((snapshot) => {
-      snapshot.docs.forEach((doc) => {
-        occupiedSlots.push(doc.data());
-      });
-    });
+  let changedStart = moment.tz(start, reqTimezone);
+  let changedEnd = moment.tz(end, reqTimezone);
 
-  let slots = [changedStart];
-  while (changedStart < changedEnd) {
-    changedStart = changedStart + staticConfig.duration * 60 * 1000;
-    slots.push(changedStart);
+  console.log(start);
+  console.log(end);
+  console.log(changedStart);
+  console.log(changedEnd);
+  console.log("----------------------");
+
+  // db.collection("events")
+  //   .where("dateTime", ">", reqDate)
+  //   .where("dateTime", "<", reqEndDate)
+  //   .get()
+  //   .then((snapshot) => {
+  //     snapshot.docs.forEach((doc) => {
+  //       console.log(doc.data().dateTime.toDate());
+  //       occupiedSlots.push(Date(doc.data().DateTime));
+  //     });
+  //   });
+  // console.log(occupiedSlots);
+
+  // console.log(start);
+  // console.log(changedStart);
+
+  let slots = [moment(changedStart)];
+  while (moment(changedStart) < moment(changedEnd)) {
+    changedStart = moment(changedStart).add(staticConfig.duration, "minutes");
+    slots.push(moment(changedStart));
   }
+  console.log(slots);
 
-  let finalSlots = [];
-  slots.forEach((element) => {
-    let i = new Date(element);
-    finalSlots.push(i);
-  });
-  res.json(finalSlots);
+  res.send(slots);
 });
 
 router.route("/createEvent").post((req, res) => {
   res.send("New appointment added");
-  const reqDateTime = new Date(req.body.reqDateTime);
+  const reqDateTime = moment.utc(req.body.reqDateTime).toDate();
   const reqDuration = parseInt(req.body.reqDuration);
-  const convDate = new Date(changeTimezone(reqDateTime, "Europe/London"));
-  console.log(convDate);
+  // const convDate = new Date(changeTimezone(reqDateTime, "Europe/London"));
+  console.log(reqDateTime);
   db.collection("events").add({
-    dateTime: admin.firestore.Timestamp.fromDate(convDate),
+    dateTime: admin.firestore.Timestamp.fromDate(reqDateTime),
     duration: reqDuration,
   });
 });

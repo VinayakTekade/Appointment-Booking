@@ -3,7 +3,9 @@ import DatePicker from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Button } from "reactstrap";
 import axios from "axios";
+import moment from "moment-timezone";
 import timezones from "../timezones";
+moment.tz.setDefault("America/New_York");
 
 export default class CreateEvent extends Component {
   constructor(props) {
@@ -12,7 +14,7 @@ export default class CreateEvent extends Component {
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onChangeTimezone = this.onChangeTimezone.bind(this);
     this.onChangeDuration = this.onChangeDuration.bind(this);
-    // this.getSlots = this.getSlots.bind(this);
+    this.getSlots = this.getSlots.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onSlotSelect = this.onSlotSelect.bind(this);
 
@@ -53,13 +55,17 @@ export default class CreateEvent extends Component {
   }
 
   getSlots(availableSlots) {
+    let refSlots = [];
+    availableSlots.map((slot) => {
+      refSlots.push(moment.tz(slot, this.state.timezone));
+    });
     this.setState({
-      slots: availableSlots,
+      slots: refSlots,
     });
     let tmp = [];
     this.state.slots.map((slot) => {
-      let Hours = new Date(slot).getHours();
-      let min = new Date(slot).getMinutes();
+      let Hours = slot.hours();
+      let min = slot.minutes();
       let _hrs = Hours;
       let _daynight = "AM";
       if (Hours > 12) {
@@ -71,14 +77,12 @@ export default class CreateEvent extends Component {
       }
       let _min = min;
       if (min === 0) _min = "00";
-      // console.log(_hrs + ":" + _min + " " + _daynight);
       tmp.push(`${_hrs}:${_min} ${_daynight}`);
       return tmp;
     });
     this.setState({
       buttons: tmp,
     });
-    console.log(this.state.buttons);
   }
 
   onSubmit(e) {
@@ -95,17 +99,23 @@ export default class CreateEvent extends Component {
   }
 
   onSlotSelect(e) {
+    let refSlots = [];
+    this.state.slots.map((slot) => {
+      refSlots.push(moment.tz(slot, "America/New_York"));
+    });
     let index = this.state.buttons.indexOf(e.button);
-    const selectedSlot = this.state.slots[index];
-    let actualSlot = new Date(selectedSlot);
+    const selectedSlot = refSlots[index];
     let date = this.state.date,
       yr = date.getFullYear(),
       month = date.getMonth(),
       day = date.getDate(),
-      hr = actualSlot.getHours(),
-      min = actualSlot.getMinutes();
+      hr = moment(selectedSlot).hours(),
+      min = moment(selectedSlot).minutes();
 
-    let eventDateTime = new Date(yr, month, day, hr, min, 0);
+    // let eventDateTime = new Date(yr, month, day, hr, min, 0);
+    let eventDateTime = moment
+      .tz([yr, month, day, hr, min], "America/New_York")
+      .format();
     console.log(eventDateTime);
 
     const eventParam = {

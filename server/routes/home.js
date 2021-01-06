@@ -1,7 +1,11 @@
 const router = require("express").Router();
 const admin = require("firebase-admin");
+
 const db = require("../db");
 const staticConfig = require("../staticConfig");
+
+const moment = require("moment-timezone");
+moment.tz.setDefault(staticConfig.timezone);
 
 let occupiedSlots = [];
 
@@ -25,14 +29,14 @@ router.route("/freeSlots").post((req, res) => {
   let changedStart = changeTimezone(start, reqTimezone);
   let changedEnd = changeTimezone(end, reqTimezone);
 
-  // db.collection("events")
-  //   .where("dateTime", "==", "admin.firestore.Timestamp.fromDate(reqDateTime)")
-  //   .get()
-  //   .then((snapshot) => {
-  //     snapshot.docs.forEach((doc) => {
-  //       occupiedSlots.push(doc.data());
-  //     });
-  //   });
+  db.collection("events")
+    .where("dateTime", "==", "admin.firestore.Timestamp.fromDate(reqDateTime)")
+    .get()
+    .then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        occupiedSlots.push(doc.data());
+      });
+    });
 
   let slots = [changedStart];
   while (changedStart < changedEnd) {

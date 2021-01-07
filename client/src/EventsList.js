@@ -31,8 +31,7 @@ export default class CreateEvent extends Component {
         .toDate(),
       endDate: moment()
         .tz("America/New_York")
-        .set({ hour: 0, minute: 0, second: 0 })
-        .add(1, "day")
+        .set({ hour: 23, minute: 59, second: 59 })
         .toDate(),
     });
   }
@@ -52,7 +51,7 @@ export default class CreateEvent extends Component {
     this.setState({
       endDate: moment(end)
         .tz("America/New_York")
-        .set({ hour: 0, minute: 0, second: 0 })
+        .set({ hour: 23, minute: 59, second: 59 })
         .add(1, "day")
         .toDate(),
     });

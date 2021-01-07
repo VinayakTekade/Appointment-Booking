@@ -10,7 +10,7 @@ router.route("/").post((req, res) => {
     // .tz(staticConfig.timezone)
     .toDate();
   reqEnd = moment(req.body.reqEnd)
-    .set({ hour: 0, minute: 0, second: 0 })
+    .set({ hour: 23, minute: 59, second: 59 })
     // .tz(staticConfig.timezone)
     .toDate();
   console.log(reqStart);

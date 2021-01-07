@@ -5,6 +5,7 @@ const moment = require("moment-timezone");
 moment.tz.setDefault(staticConfig.timezone);
 
 router.route("/").get((req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
   db.collection("events")
     .get()
     .then((snapshot) => {
@@ -19,6 +20,7 @@ router.route("/").get((req, res) => {
           .tz(event.dateTime, staticConfig.timezone)
           .format();
       });
+      console.log(eventsList);
       res.json(eventsList);
     });
 });

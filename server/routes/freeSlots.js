@@ -7,9 +7,10 @@ const staticConfig = require("../staticConfig");
 const moment = require("moment-timezone");
 moment.tz.setDefault(staticConfig.timezone);
 
-let occupiedSlots = [];
+// let occupiedSlots = [];
 
-router.route("/freeSlots").post((req, res) => {
+router.route("/").post((req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
   // let reqDate = req.query.reqDate;
   // reqDate = moment(reqDate).format();
   // reqDate = new Date(reqDate);
@@ -25,12 +26,6 @@ router.route("/freeSlots").post((req, res) => {
 
   let changedStart = moment.tz(start, reqTimezone);
   let changedEnd = moment.tz(end, reqTimezone);
-
-  console.log(start);
-  console.log(end);
-  console.log(changedStart);
-  console.log(changedEnd);
-  console.log("----------------------");
 
   // db.collection("events")
   //   .where("dateTime", ">", reqDate)
@@ -55,18 +50,6 @@ router.route("/freeSlots").post((req, res) => {
   console.log(slots);
 
   res.send(slots);
-});
-
-router.route("/createEvent").post((req, res) => {
-  res.send("New appointment added");
-  const reqDateTime = moment.utc(req.body.reqDateTime).toDate();
-  const reqDuration = parseInt(req.body.reqDuration);
-  // const convDate = new Date(changeTimezone(reqDateTime, "Europe/London"));
-  console.log(reqDateTime);
-  db.collection("events").add({
-    dateTime: admin.firestore.Timestamp.fromDate(reqDateTime),
-    duration: reqDuration,
-  });
 });
 
 module.exports = router;

@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment-timezone";
-import { Switch, Route, useParams, Link } from "react-router-dom";
+import { Switch, Route, useParams } from "react-router-dom";
 
 const Success = () => {
   return (

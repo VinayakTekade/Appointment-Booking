@@ -4,15 +4,25 @@ const staticConfig = require("../staticConfig");
 const moment = require("moment-timezone");
 moment.tz.setDefault(staticConfig.timezone);
 
-router.route("/").get((req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+router.route("/").post((req, res) => {
+  reqStart = moment(req.body.reqStart)
+    .set({ hour: 0, minute: 0, second: 0 })
+    // .tz(staticConfig.timezone)
+    .toDate();
+  reqEnd = moment(req.body.reqEnd)
+    .set({ hour: 0, minute: 0, second: 0 })
+    // .tz(staticConfig.timezone)
+    .toDate();
+  console.log(reqStart);
+  console.log(reqEnd);
+  let eventsList = [];
   db.collection("events")
+    .where("dateTime", ">", reqStart)
+    .where("dateTime", "<", reqEnd)
     .get()
     .then((snapshot) => {
-      let eventsList = [];
       snapshot.docs.forEach((doc) => {
         eventsList.push(doc.data());
-        // console.log(doc.data());
       });
       eventsList.map((event) => {
         event.dateTime = event.dateTime.toDate();
@@ -20,7 +30,6 @@ router.route("/").get((req, res) => {
           .tz(event.dateTime, staticConfig.timezone)
           .format();
       });
-      console.log(eventsList);
       res.json(eventsList);
     });
 });

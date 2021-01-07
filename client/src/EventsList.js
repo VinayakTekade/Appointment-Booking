@@ -25,8 +25,12 @@ export default class CreateEvent extends Component {
   componentDidMount() {
     this.setState({
       events: [],
-      startDate: moment().set({ hour: 0, minute: 0, second: 0 }).toDate(),
+      startDate: moment()
+        .tz("America/New_York")
+        .set({ hour: 0, minute: 0, second: 0 })
+        .toDate(),
       endDate: moment()
+        .tz("America/New_York")
         .set({ hour: 0, minute: 0, second: 0 })
         .add(1, "day")
         .toDate(),
@@ -35,14 +39,22 @@ export default class CreateEvent extends Component {
 
   onChangeStart = (start) => {
     this.setState({
-      startDate: moment(start).toDate(),
+      startDate: moment(start)
+        .tz("America/New_York")
+        .set({ hour: 0, minute: 0, second: 0 })
+        .add(1, "day")
+        .toDate(),
     });
     console.log(this.state.startDate);
   };
 
   onChangeEnd = (end) => {
     this.setState({
-      endDate: end,
+      endDate: moment(end)
+        .tz("America/New_York")
+        .set({ hour: 0, minute: 0, second: 0 })
+        .add(1, "day")
+        .toDate(),
     });
     console.log(this.state.endDate);
   };

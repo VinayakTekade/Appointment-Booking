@@ -58,6 +58,7 @@ export default class CreateEvent extends Component {
     let refSlots = [];
     availableSlots.map((slot) => {
       refSlots.push(moment.tz(slot, this.state.timezone));
+      return moment.tz(slot, this.state.timezone);
     });
     this.setState({
       slots: refSlots,
@@ -102,6 +103,7 @@ export default class CreateEvent extends Component {
     let refSlots = [];
     this.state.slots.map((slot) => {
       refSlots.push(moment.tz(slot, "America/New_York"));
+      return moment.tz(slot, "America/New_York");
     });
     let index = this.state.buttons.indexOf(e.button);
     const selectedSlot = refSlots[index];
@@ -123,9 +125,14 @@ export default class CreateEvent extends Component {
       reqDuration: this.state.duration,
     };
 
-    axios.post("http://localhost:5000/createEvent", eventParam).then(() => {
-      window.location = "/status";
-    });
+    axios
+      .post("http://localhost:5000/createEvent", eventParam)
+      .then(() => {
+        window.location = `/status/${eventParam.reqDateTime}/${eventParam.reqDuration}`;
+      })
+      .catch(() => {
+        window.location = `/Error/:442`;
+      });
   }
 
   render() {

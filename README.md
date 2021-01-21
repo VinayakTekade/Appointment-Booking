@@ -1,4 +1,4 @@
-# GHL-Appointment-Booking
+# Dr John Appointment-Booking
 
 <!-- PROJECT LOGO -->
 <br />
@@ -41,7 +41,7 @@ This web application uses the following technology
 
 ## Getting Started
 
-To preview this application online click here [https://ghl-appointment-booking.herokuapp.com/](https://ghl-appointment-booking.herokuapp.com/)
+To preview this application online click here [https://dr-john-appointment-booking.herokuapp.com/](https://dr-john-appointment-booking.herokuapp.com/)
 
 To run this application locally 2. Clone the repo
 

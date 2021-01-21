@@ -46,7 +46,7 @@ To preview this application online click here [https://dr-john-appointment-booki
 To run this application locally 2. Clone the repo
 
 ```sh
-git clone https://github.com/VinayakTekade/GHL-Appointment-Booking.git
+git clone https://github.com/VinayakTekade/Appointment-Booking
 ```
 
 3. Install NPM packages in client directory and server directory
